@@ -1,0 +1,16 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t emrossi/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run -e CI=true emrossi/react-test npm run test
+
+after_success:
+  - docker build -t emrossi/multi-client ./client
+  - docker build -t emrossi/multi-nginx ./nginx
+  - docker build -t emrossi/multi-server ./server
+  - docker build -t emrossi/multi-worker ./worker
+
