@@ -13,4 +13,11 @@ after_success:
   - docker build -t emrossi/multi-nginx ./nginx
   - docker build -t emrossi/multi-server ./server
   - docker build -t emrossi/multi-worker ./worker
-
+  # Log in to the docker CLI
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  # Take those images and push them to Docker Hub
+  - docker push emrossi/multi-client
+  - docker push emrossi/multi-nginx
+  - docker push emrossi/multi-server
+  - docker push emrossi/multi-worker
+  
